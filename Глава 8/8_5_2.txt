@@ -1,0 +1,20 @@
+#include <stdio.h>
+  
+int main(void)
+{
+    // Файл чтения
+    char * filename = "data.txt";
+    // Буфер для считавания данных из файла
+    char buffer[256];
+    // Чтение из файла
+    FILE *fp = fopen(filename, "r");
+    if(fp)
+    {
+        // Пока не дойдем до конца, считываем по 256 байт
+        while((fgets(buffer, 256, fp))!=NULL)
+        {
+            printf("%s", buffer);
+        }
+        fclose(fp);
+    } 
+}

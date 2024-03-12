@@ -1,0 +1,38 @@
+#include <stdio.h>
+ 
+struct person
+{
+    char name[20];
+    int age;
+};
+ 
+int main() {
+    char * filename = "people.bin";  // Имя файла для записи и чтения
+     
+    // Массив для записи
+    struct person people[] = { {"Tom", 23}, {"Alice", 27}, {"Bob", 31}, {"Kate", 29 }};
+    int size = sizeof(people[0]);  // Размер одной структуры в массиве
+    int count = sizeof(people)  / size;  // Количество структур в массиве
+     
+    // Запись файла
+    FILE *fp = fopen(filename, "w");  // Открытие файла для записи
+    // Записываем массив структур
+    size_t written = fwrite(people, size, count, fp);  // Запись массива структур в файл
+    printf("wrote %zu elements out of %d\n", written, count);  // Вывод информации о количестве записанных элементов
+    fclose(fp);  // Закрытие файла после записи
+ 
+    // Считывание файла
+    struct person users[count];  // Массив для чтения структур из файла
+    fp = fopen(filename, "r");  // Открытие файла для чтения
+    size_t read = fread(users, size, count, fp);  // Чтение массива структур из файла
+    printf("read %zu elements\n", read);  // Вывод информации о количестве прочитанных элементов
+ 
+    if(read > 0)
+    {  
+        for(int i = 0; i < count; i++)
+        {
+            printf("Name: %s \t Age: %d\n", users[i].name, users[i].age);  // Вывод имени и возраста каждой структуры
+        }
+    }
+    fclose(fp);  // Закрытие файла после чтения
+}

@@ -1,0 +1,30 @@
+#include <stdio.h>
+ 
+struct person
+{
+    char name[20];
+    int age;
+};
+
+int main(void)
+{
+    char * filename = "users.dat";  // Имя файла для записи
+    struct person people[] = { {"Tom", 23}, {"Alice", 27}, {"Bob", 31}, {"Kate", 29} };  // Массив структур
+    // Количество записываемых структур
+    int n = sizeof(people)/sizeof(people[0]);
+    FILE *fp = fopen(filename, "w");  // Открытие файла для записи
+    if (!fp)  // Проверка успешного открытия файла
+    {
+        printf("Error occured while opening file\n");  // Вывод сообщения об ошибке, если файл не удалось открыть
+        return 1;  // Возвращение кода ошибки
+    }
+      
+    // Запись данных в файл
+    for(int i=0; i < n; i++)
+    {
+        fprintf(fp, "%s  %d\n", people[i].name, people[i].age);  // Запись имени и возраста в файл
+    }
+    fclose(fp);  // Закрытие файла
+    printf("File has been written\n");  // Вывод сообщения о успешной записи данных в файл
+    return 0;
+}

@@ -1,0 +1,12 @@
+#include <stdio.h>
+ 
+int main() {
+    int N  = 20;  // Определение размера буфера
+    char str[N];  // Определение буфера достаточной длины
+ 
+    FILE *fp = fopen("data.txt", "r");  // Открытие файла "data.txt" для чтения
+    size_t count = fread(str, sizeof str[0], N, fp);  // Чтение данных из файла в буфер
+    printf("read %zu elements out of %d\n", count,  N);  // Вывод информации о количестве прочитанных элементов и размере буфера
+    printf(str);  // Вывод прочитанных данных
+    fclose(fp);  // Закрытие файла
+}

@@ -1,0 +1,44 @@
+#include <stdio.h>
+ 
+struct person
+{
+    char name[20];
+    int age;
+};
+ 
+void save(char*);
+void read_by_age(char*, int);
+ 
+int main() {
+    char * filename = "people.bin";  // Имя файла
+    save(filename);  // Вызов функции для сохранения данных в файл
+    read_by_age(filename, 22);   // Вызов функции для чтения данных из файла по возрасту
+}
+ 
+// Запись данных в файл
+void save(char* filename)
+{
+    struct person people[] = { {"Tom", 22}, {"Bob", 33}, {"Kate", 33 }, {"Alice", 22}};  // Массив структур для записи
+    int size = sizeof(people[0]);  // Размер одной структуры в массиве
+    int count = sizeof(people)  / size;  // Количество структур в массиве 
+ 
+    FILE *fp = fopen(filename, "w");  // Открытие файла для записи
+    size_t written = fwrite(people, size, count, fp);  // Запись массива структур в файл
+    printf("wrote %zu elements out of %d\n", written, count);  // Вывод информации о количестве записанных элементов
+    fclose(fp);  // Закрытие файла после записи
+}
+
+// Вывод данных из файла на консоль для возраста age
+void read_by_age(char* filename, int age)
+{
+    struct person p;  // Структура для считывания данных из файла
+    FILE* fp = fopen(filename, "r");  // Открытие файла для чтения
+    while(fread(&p, sizeof(p), 1, fp) == 1)  // Чтение данных из файла по одной структуре
+    {
+        if(p.age == age)    // Проверка, соответствует ли возраст заданному
+        {
+            printf("Name: %s \t Age: %d \n", p.name, p.age);  // Вывод имени и возраста на консоль
+        }
+    }
+    fclose(fp);  // Закрытие файла после чтения
+}

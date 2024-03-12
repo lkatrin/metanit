@@ -1,0 +1,22 @@
+#include <stdio.h>
+ 
+int main(void)
+{   
+    char * filename = "users.dat";  // Имя файла для чтения
+    char name[20];  // Массив для считывания имени
+    int age;        // Переменная для считывания возраста
+    FILE *fp = fopen(filename, "r");  // Открытие файла для чтения
+    if (!fp)  // Проверка успешного открытия файла
+    {
+        printf("Error occured while opening file\n");  // Вывод сообщения об ошибке, если файл не удалось открыть
+        return 1;  // Возвращение кода ошибки
+    }
+     
+    // Считывание данных из файла и вывод на консоль
+    while((fscanf(fp, "%20s  %d\n", name, &age))!=EOF)
+    {
+        printf("%s  %d\n", name, age);  // Вывод имени и возраста на консоль
+    }
+    fclose(fp);  // Закрытие файла
+    return 0;
+}
